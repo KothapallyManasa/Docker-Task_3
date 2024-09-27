@@ -1,0 +1,180 @@
+root@ip-172-31-35-14:~/docker-demo# docker images
+REPOSITORY                 TAG       IMAGE ID       CREATED        SIZE
+docker-compose-web         latest    6a1620e193fc   5 days ago     214MB
+card-website               v1.1      47d8cae4b784   5 days ago     194MB
+mkothapally/card-website   v1.1      47d8cae4b784   5 days ago     194MB
+redis                      alpine    7d06252fad43   2 months ago   41.2MB
+root@ip-172-31-35-14:~/docker-demo#
+root@ip-172-31-35-14:~/docker-demo#
+root@ip-172-31-35-14:~/docker-demo# gitclone https://github.com/amolshete/Docker-compose.git
+gitclone: command not found
+root@ip-172-31-35-14:~/docker-demo#
+root@ip-172-31-35-14:~/docker-demo# git clone https://github.com/amolshete/Docker-compose.git
+Cloning into 'Docker-compose'...
+remote: Enumerating objects: 24, done.
+remote: Counting objects: 100% (24/24), done.
+remote: Compressing objects: 100% (22/22), done.
+remote: Total 24 (delta 7), reused 0 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (24/24), 7.42 KiB | 2.47 MiB/s, done.
+Resolving deltas: 100% (7/7), done.
+root@ip-172-31-35-14:~/docker-demo#
+root@ip-172-31-35-14:~/docker-demo#
+root@ip-172-31-35-14:~/docker-demo# ls
+Docker-compose  java-project
+root@ip-172-31-35-14:~/docker-demo#
+root@ip-172-31-35-14:~/docker-demo#
+root@ip-172-31-35-14:~/docker-demo#
+root@ip-172-31-35-14:~/docker-demo# cd Docker-compose/
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# ls
+Dockerfile  README.md  app.py  docker-compose-example.yml  docker-compose.yml  requirements.txt
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# cd Dock
+-bash: cd: Dock: No such file or directory
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# cat Dockerfile
+# syntax=docker/dockerfile:1
+FROM python:3.7-alpine
+WORKDIR /code
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+EXPOSE 5000
+COPY . .
+CMD ["flask", "run"]
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# nano Dockerfile
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# nano Dockerfile_1
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# cat Dockerfile_1
+FROM nginx
+COPY Docker-compose /usr/share/nginx/html
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker build -t Docker-compose:v1.1
+ERROR: "docker buildx build" requires exactly 1 argument.
+See 'docker buildx build --help'.
+
+Usage:  docker buildx build [OPTIONS] PATH | URL | -
+
+Start a build
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker build -t Docker-compose:v1.1 .
+[+] Building 0.0s (0/0)                                                                                                                                                                            docker:default
+ERROR: invalid tag "Docker-compose:v1.1": repository name must be lowercase
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker build -t dockercompose:v1.1 .
+[+] Building 2.4s (15/15) FINISHED                                                                                                                                                                 docker:default
+ => [internal] load build definition from Dockerfile                                                                                                                                                         0.0s
+ => => transferring dockerfile: 320B                                                                                                                                                                         0.0s
+ => resolve image config for docker-image://docker.io/docker/dockerfile:1                                                                                                                                    0.9s
+ => [auth] docker/dockerfile:pull token for registry-1.docker.io                                                                                                                                             0.0s
+ => CACHED docker-image://docker.io/docker/dockerfile:1@sha256:865e5dd094beca432e8c0a1d5e1c465db5f998dca4e439981029b3b81fb39ed5                                                                              0.0s
+ => [internal] load metadata for docker.io/library/python:3.7-alpine                                                                                                                                         0.9s
+ => [auth] library/python:pull token for registry-1.docker.io                                                                                                                                                0.0s
+ => [internal] load .dockerignore                                                                                                                                                                            0.0s
+ => => transferring context: 2B                                                                                                                                                                              0.0s
+ => [1/6] FROM docker.io/library/python:3.7-alpine@sha256:f3d31c8677d03f0b3c724446077f229a6ce9d3ac430f5c08cd7dff00292048c3                                                                                   0.0s
+ => [internal] load build context                                                                                                                                                                            0.0s
+ => => transferring context: 43.89kB                                                                                                                                                                         0.0s
+ => CACHED [2/6] WORKDIR /code                                                                                                                                                                               0.0s
+ => CACHED [3/6] RUN apk add --no-cache gcc musl-dev linux-headers                                                                                                                                           0.0s
+ => CACHED [4/6] COPY requirements.txt requirements.txt                                                                                                                                                      0.0s
+ => CACHED [5/6] RUN pip install -r requirements.txt                                                                                                                                                         0.0s
+ => [6/6] COPY . .                                                                                                                                                                                           0.1s
+ => exporting to image                                                                                                                                                                                       0.1s
+ => => exporting layers                                                                                                                                                                                      0.0s
+ => => writing image sha256:0f465a6dc1ece8d856321edfceaf7b18fd225f5f766a8be76c69b588b5741de8                                                                                                                 0.0s
+ => => naming to docker.io/library/dockercompose:v1.1                                                                                                                                                        0.0s
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker images
+REPOSITORY                 TAG       IMAGE ID       CREATED          SIZE
+dockercompose              v1.1      0f465a6dc1ec   19 seconds ago   214MB
+docker-compose-web         latest    6a1620e193fc   5 days ago       214MB
+card-website               v1.1      47d8cae4b784   5 days ago       194MB
+mkothapally/card-website   v1.1      47d8cae4b784   5 days ago       194MB
+redis                      alpine    7d06252fad43   2 months ago     41.2MB
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker compose up -d
+[+] Running 2/0
+ ✔ Container docker-compose-redis-1  Running                                                                                                                                                                 0.0s
+ ✔ Container docker-compose-web-1    Running                                                                                                                                                                 0.0s
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker login
+Authenticating with existing credentials...
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credential-stores
+
+Login Succeeded
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker push dockercompose:v1.1
+The push refers to repository [docker.io/library/dockercompose]
+e3f85a2048c2: Preparing
+1856480d3bbf: Preparing
+f036b16e9776: Preparing
+f72dcc43c861: Preparing
+7f17acd16154: Preparing
+ae2ed3079163: Waiting
+aa3a591fc84e: Waiting
+7f29b11ef9dd: Waiting
+a1c2f058ec5f: Waiting
+cc2447e1835a: Waiting
+denied: requested access to the resource is denied
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker login
+Authenticating with existing credentials...
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credential-stores
+
+Login Succeeded
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker tag dockercompose:v1.1 mkothapally/card-website:v1.2
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker images
+REPOSITORY                 TAG       IMAGE ID       CREATED         SIZE
+dockercompose              v1.1      0f465a6dc1ec   3 minutes ago   214MB
+mkothapally/card-website   v1.2      0f465a6dc1ec   3 minutes ago   214MB
+docker-compose-web         latest    6a1620e193fc   5 days ago      214MB
+card-website               v1.1      47d8cae4b784   5 days ago      194MB
+mkothapally/card-website   v1.1      47d8cae4b784   5 days ago      194MB
+redis                      alpine    7d06252fad43   2 months ago    41.2MB
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker push mkothapally/card-website:v1.2
+The push refers to repository [docker.io/mkothapally/card-website]
+e3f85a2048c2: Pushed
+1856480d3bbf: Pushed
+f036b16e9776: Pushed
+f72dcc43c861: Pushed
+7f17acd16154: Pushed
+ae2ed3079163: Pushed
+aa3a591fc84e: Pushed
+7f29b11ef9dd: Pushed
+a1c2f058ec5f: Pushed
+cc2447e1835a: Pushed
+v1.2: digest: sha256:94d19279e11b9dbdc023cd1742ade6a90a53f4f3b3b7d3dcac3790c65c7e245f size: 2413
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker run -d -p 80:80 mkothapally/card-website:v1.2
+e41fd9381306bc2a2e02afe034928e5b8dd85435d6a6d23c134335c24ae6cf18
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose# docker ps
+CONTAINER ID   IMAGE                           COMMAND                  CREATED         STATUS          PORTS                                         NAMES
+e41fd9381306   mkothapally/card-website:v1.2   "flask run"              5 seconds ago   Up 4 seconds    0.0.0.0:80->80/tcp, :::80->80/tcp, 5000/tcp   exciting_franklin
+bc080b736c74   docker-compose-web              "flask run"              5 days ago      Up 40 minutes   0.0.0.0:8000->5000/tcp, [::]:8000->5000/tcp   docker-compose-web-1
+d14bb0f9e5cd   redis:alpine                    "docker-entrypoint.s…"   5 days ago      Up 40 minutes   6379/tcp                                      docker-compose-redis-1
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
+root@ip-172-31-35-14:~/docker-demo/Docker-compose#
